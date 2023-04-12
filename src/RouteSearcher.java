@@ -31,45 +31,6 @@ public class RouteSearcher {
         return new Path();
     }
 
-    public Path uniformCost(HashMap<String, City> citiesMap, City start, City end){
-        PriorityQueue<Path> frontier = new PriorityQueue<>();
-        ArrayList<City> explored = new ArrayList<>();
-        int count = 1;
-        if(start==end){
-            return new Path();
-        }
-        Path path = new Path();
-        path.addCity(start);
-        frontier.add(path);
-        while(!frontier.isEmpty()){
-            count++;
-            path = frontier.remove();
-            if(path.getLastCity().equals(end)) {
-                System.out.println(count);
-                return path;
-            }
-            explored.add(path.getLastCity());
-            for(Neighbor neighbor : path.getLastCity().getNeighbors()){
-                City neighborCity = citiesMap.get(neighbor.getName());
-                if(!inFrontier(frontier, neighborCity)&&!inExplored(explored, neighborCity)) {
-                    Path newPath = new Path(path);
-                    newPath.addCity(neighborCity, neighbor.getDistance());
-                    frontier.add(newPath);
-                }
-                else if(inFrontier(frontier, neighborCity)){
-                    Path pathToRemove = getPathFromCity(neighborCity, frontier);
-                    frontier.remove(pathToRemove);
-                    Path newPath = new Path(path);
-                    newPath.addCity(neighborCity, neighbor.getDistance());
-                    frontier.add(newPath);
-                }
-            }
-
-        }
-        System.out.println(count);
-        return new Path();
-    }
-
     public Path uniformCost2(HashMap<String, City> citiesMap, City start, City end){
         PriorityQueue<Path> frontier = new PriorityQueue<>();
         ArrayList<City> explored = new ArrayList<>();
